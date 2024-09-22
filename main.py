@@ -9,7 +9,7 @@ import time
 
 # Función para consultar la API con la matrícula escaneada
 def consultar_api(matricula, page, show_dialog):
-    url = ""
+    url = "http://localhost:8000/api/v1/consulta"
     body = {
         "TokenApi": "",
         "Matricula": matricula,
@@ -70,7 +70,7 @@ def crear_boton_personalizado(titulo, subtitulo, icono):
     return ft.Container(
         content=ft.Column(
             [
-                ft.Text(titulo, size=16, weight="bold"),
+                ft.Text(titulo, size=16),
                 ft.Text(subtitulo, size=12),
                 ft.Icon(icono, size=30),
             ],
@@ -83,30 +83,37 @@ def crear_boton_personalizado(titulo, subtitulo, icono):
         border_radius=10,
         alignment=ft.alignment.center,
         ink=True,
-        font_family="assets/fonts/Montserrat-VariableFont_wght.ttf",
         on_click=lambda e: print(f"Botón {titulo} presionado")
     )
 
 # Función para iniciar la interfaz de Flet
 def main(page: ft.Page):
-    #Colores
+    # Colores
     colorPrincipal = '#052147'
     colorSecundario = '#FFFFFF'
     colorTerciario = '#29ABE2'
     colorComplemento = '#0030A4'
 
+    # Definir la fuente Montserrat
+    page.fonts = {
+        "Montserrat": "assets/fonts/Montserrat-VariableFont_wght.ttf",
+        "Roboto-Bold" : "assets/fonts/Roboto-Bold.ttf",
+        "Roboto-Regular" : "assets/fonts/Roboto-Regular.ttf",
+    }
+
+    # Configurar el tema con la fuente por defecto
+    page.theme = ft.Theme(font_family="Roboto-Bold")
+
+    # Colores y otras configuraciones de página
     page.title = "Escaneo de QR"
     page.window_width = 1024
     page.window_height = 600
     page.bgcolor = colorPrincipal
-    page.fonts = {
-        "Montserrat": "assets/fonts/Montserrat-VariableFont_wght.ttf"
-    }
 
     # Texto para mostrar siempre "Esperando escaneo de QR"
-    qr_text = ft.Text(value="Esperando escaneo de QR...", size=20,weight="bold",font_family="Montserrat",)
-    title_text = ft.Text(value="Esperando escaneo de QR...", size=20,weight="bold",font_family="Montserrat",)
-    services_text = ft.Text(value="Elige el motivo de tu visita", size=30,weight="bold",font_family="Montserrat",)
+    qr_text = ft.Text(value="Esperando escaneo de QR...", size=20, weight="bold",color =colorSecundario)
+    title_text = ft.Text(value="Esperando escaneo de QR...", size=20, weight="bold",color =colorSecundario)
+    services_text = ft.Text(value="Elige el motivo de tu visita", size=30, weight="bold", font_family="Montserrat")
 
     # Imagen para mostrar la vista de la cámara
     camera_image = ft.Image(src_base64="", fit=ft.ImageFit.FILL, expand=True)
@@ -176,7 +183,7 @@ def main(page: ft.Page):
             ft.Column(
                 [
                     ft.Container(content=title_text, alignment=ft.alignment.center, width=300, height=50),
-                    ft.Container(content=camera_image, bgcolor=colorSecundario, width=330, height=280,border_radius=10),
+                    ft.Container(content=camera_image, bgcolor=colorSecundario, width=330, height=280, border_radius=10),
                     ft.Container(content=qr_text, alignment=ft.alignment.center, width=300, height=50),
                 ],
                 spacing=10,
