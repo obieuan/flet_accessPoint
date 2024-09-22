@@ -106,6 +106,7 @@ def main(page: ft.Page):
 
     # Colores y otras configuraciones de página
     page.title = "Escaneo de QR"
+    page.window_full_screen = True
     page.window_width = 1024
     page.window_height = 600
     page.bgcolor = colorPrincipal
