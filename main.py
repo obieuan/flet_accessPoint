@@ -32,7 +32,14 @@ def consultar_api(matricula, page, show_dialog):
 
 # Función para escanear el QR y actualizar la pantalla en Flet
 def scan_qr(update_image, show_dialog, page):
-    cap = cv2.VideoCapture(0)
+    for i in range(5):  # Intenta con los primeros 5 índices de cámara
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+            print(f"Cámara encontrada en el índice {i}")
+            break
+    else:
+        print("No se encontraron cámaras disponibles.")
+    #cap = cv2.VideoCapture(0)
 
     while True:
         ret, frame = cap.read()
@@ -159,7 +166,7 @@ def main(page: ft.Page):
 
     # Colores y otras configuraciones de página
     page.title = "Escaneo de QR"
-    #page.window_full_screen = True
+    page.window_full_screen = True
     page.window_width = 1024
     page.window_height = 600
     page.bgcolor = colorPrincipal
